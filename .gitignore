@@ -1,0 +1,29 @@
+# Byte-compiled / cached files
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Files produced while using the shell
+*.csv
+datasets/
+policy_files/
+slice_and_dice.json
+saved_scopes.json
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store

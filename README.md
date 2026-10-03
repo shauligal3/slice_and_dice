@@ -18,17 +18,17 @@ down to the timeline of a single request.
 [11:datetime > 2024-05-01] in geo = US
 [:12 geo = US] Logs: 12.0K
 [12:datetime > 2024-05-01 and geo = US] group_by network
-network        %gain   %fbu    %dcu    #Acc           #Byp           %share
-LTE            12.50   8.00    10.00   900            100            62.50
-WiFi           3.00    1.00    2.00    450            50             31.25
-3G             -1.00   -2.00   0.50    90             10             6.25
+network        %gain   %ttfb   %latency  #Acc           #Byp           %share
+LTE            12.50   8.00    10.00     900            100            62.50
+WiFi           3.00    1.00    2.00      450            50             31.25
+3G             -1.00   -2.00   0.50      90             10             6.25
 [ 0 - 3 of 3 rows ]
 [12:datetime > 2024-05-01 and geo = US] in LTE
 [:101 network = LTE] Logs: 1000
 [101:datetime > 2024-05-01 and geo = US and network = LTE] samples order-by speed desc
-speed size  dcu fbu ses
-2.5K  40.0K 600 200 1234567891
-1.5K  20.0K 900 300 1234567890
+speed size   latency  ttfb   ses
+2.5K  40.0K  600      200    1234567891
+1.5K  20.0K  900      300    1234567890
 ```
 
 *(Numbers are illustrative.)*
@@ -40,8 +40,8 @@ speed size  dcu fbu ses
   Breakdown rows and traffic classes can be stepped into directly by value
   (`in LTE`, `in acc`).
 - **Breakdowns.** `group_by` any combination of dimensions, with numeric, date or
-  prefix breakpoints. Add aggregate columns (`select median fbu perc95 speed`),
-  sort (`order_by median dcu desc`) and page with Enter.
+  prefix breakpoints. Add aggregate columns (`select median ttfb perc95 speed`),
+  sort (`order_by median latency desc`) and page with Enter.
 - **Raw data.** Page through sample records with `samples`, or draw each request's
   connection timeline with `timelines` to see where the time went.
 - **Policy analytics.** Projection and best-policy reports compare acceleration
@@ -106,22 +106,6 @@ Inside the shell, `help` lists every command and `help <command>` explains one.
 | `save_scope <name>` / `get_scope <name>` | Bookmark and restore scopes |
 | `set <setting> [<value>]` / `save` | Change settings for the session / persist them |
 | `show stack\|scope\|sql\|settings\|rest\|selected\|iter\|server` | Inspect internal state |
-
-### Metric glossary
-
-Timing metrics are named `<event><vantage point>`:
-
-| Event | | Vantage point | |
-| --- | --- | --- | --- |
-| `co` | connection established | `u` | the user's device |
-| `fb` | first byte received | `h` | the acceleration proxy |
-| `dc` | download complete | `o` | the origin server |
-
-So `fbu` is time to first byte as experienced by the user, and `dco` is the
-time for the origin to deliver the full response. `speed` is download
-throughput. `%gain`, `%fbu` and `%dcu` are the improvement of accelerated over
-bypassed traffic. `#Ace` / `#Bye` count accelerated and bypassed requests that
-ended in an error.
 
 ### Settings
 

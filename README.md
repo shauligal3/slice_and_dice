@@ -166,3 +166,7 @@ mypy                  # strict type checking
 ```
 
 CI runs all of the above on Python 3.10 to 3.13.
+
+## License
+
+Released under the [MIT License](LICENSE).
